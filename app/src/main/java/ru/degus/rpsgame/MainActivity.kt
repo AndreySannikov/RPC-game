@@ -8,7 +8,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
-
+private var isValidChoice = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,19 +22,12 @@ class MainActivity : AppCompatActivity() {
     fun getGameChoice(optionsParam: Array<String>) = optionsParam[(Random.nextInt(0,optionsParam.size))]
 
     fun getUserChoice(optionsParam: Array<String>): String {
-        var isValidChoice = false
         var userChoice = ""
+        val userInput = editText.text.toString()
 
-        while (!isValidChoice) {
-
-            val userInput = editText.text.toString()
-
-
-            if (userInput != null && userInput in optionsParam) {
-                isValidChoice = true
-                userChoice = userInput
-            }
-            else textView.text = "You must enter a valid choice."
+        if (userInput != null && userInput in optionsParam) {
+            isValidChoice = true
+            userChoice = userInput
         }
         return userChoice
     }
@@ -54,6 +47,11 @@ class MainActivity : AppCompatActivity() {
         val options = arrayOf("Rock", "Paper", "Scissors")
         val gameChoice = getGameChoice(options)
         val userChoice = getUserChoice(options)
-        printResult(userChoice, gameChoice, options)
+
+        if (isValidChoice == true) {
+            printResult(userChoice, gameChoice, options)
+            isValidChoice = false
+        }
+        else textView.text = "You must enter a valid choice."
     }
 }
