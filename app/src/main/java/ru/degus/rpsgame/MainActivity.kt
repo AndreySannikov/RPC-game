@@ -14,8 +14,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         imageEnemy.setImageResource(R.drawable.tie)
         imageEnemyChoice.setImageResource(R.drawable.question)
-
-
     }
 
     fun getGameChoice(optionsParam: Array<String>): String {
