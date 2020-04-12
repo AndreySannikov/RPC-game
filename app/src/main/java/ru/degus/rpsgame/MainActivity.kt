@@ -1,57 +1,73 @@
 package ru.degus.rpsgame
 
+import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
-private var isValidChoice = false
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        textViewUp.text = "Please enter one of the following:" +
-                " Rock, Paper, Scissors."
+        imageEnemy.setImageResource(R.drawable.tie)
+        imageEnemyChoice.setImageResource(R.drawable.question)
+
 
     }
 
-    fun getGameChoice(optionsParam: Array<String>) = optionsParam[(Random.nextInt(0,optionsParam.size))]
-
-    fun getUserChoice(optionsParam: Array<String>): String {
-        var userChoice = ""
-        val userInput = editText.text.toString()
-
-        if (userInput != null && userInput in optionsParam) {
-            isValidChoice = true
-            userChoice = userInput
+    fun getGameChoice(optionsParam: Array<String>): String {
+        val choice = optionsParam[(Random.nextInt(0,optionsParam.size))]
+        when (choice) {
+            "Rock" -> imageEnemyChoice.setImageResource(R.drawable.rock_enemy)
+            "Paper" -> imageEnemyChoice.setImageResource(R.drawable.paper_enemy)
+            "Scissors" -> imageEnemyChoice.setImageResource(R.drawable.scissors_enemy)
         }
-        return userChoice
+        return choice
     }
 
     fun printResult(userChoice: String, gameChoice: String, optionsParam: Array<String>) {
         val result: String
 
-        if (userChoice == gameChoice) result = "Tie!"
+        if (userChoice == gameChoice) {
+            result = "Tie!"
+            imageEnemy.setImageResource(R.drawable.tie)
+        }
         else if ((userChoice == optionsParam[0] && gameChoice == optionsParam[2]) ||
             (userChoice == optionsParam[1] && gameChoice == optionsParam[0]) ||
-            (userChoice == optionsParam[2] && gameChoice == optionsParam[1])) result = "You win!"
-        else result = "You lose!"
+            (userChoice == optionsParam[2] && gameChoice == optionsParam[1])) {
+            result = "You win!"
+            imageEnemy.setImageResource(R.drawable.win)
+        }
+        else {
+            result = "You lose!"
+            imageEnemy.setImageResource(R.drawable.lose)
+        }
+        textView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Coaster.otf"))
         textView.text = result
+
     }
 
-    fun onClick(view: View) {
+    fun onClikPaper(view: View) {
         val options = arrayOf("Rock", "Paper", "Scissors")
         val gameChoice = getGameChoice(options)
-        val userChoice = getUserChoice(options)
+        val userChoice = "Paper"
+        printResult(userChoice, gameChoice, options)
+    }
 
-        if (isValidChoice == true) {
-            printResult(userChoice, gameChoice, options)
-            isValidChoice = false
-        }
-        else textView.text = "You must enter a valid choice."
+    fun onClickRock(view: View) {
+        val options = arrayOf("Rock", "Paper", "Scissors")
+        val gameChoice = getGameChoice(options)
+        val userChoice = "Rock"
+        printResult(userChoice, gameChoice, options)
+    }
+
+    fun onClickScissors(view: View) {
+        val options = arrayOf("Rock", "Paper", "Scissors")
+        val gameChoice = getGameChoice(options)
+        val userChoice = "Scissors"
+        printResult(userChoice, gameChoice, options)
     }
 }
