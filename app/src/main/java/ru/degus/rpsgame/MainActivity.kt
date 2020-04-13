@@ -8,12 +8,19 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
+    private var countWins = 0
+    private var countRound = 0
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         imageEnemy.setImageResource(R.drawable.tie)
         imageEnemyChoice.setImageResource(R.drawable.question)
+        textWins.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Coaster.otf"))
+        textRound.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Coaster.otf"))
+        textResult.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Coaster.otf"))
     }
 
     fun getGameChoice(optionsParam: Array<String>): String {
@@ -38,17 +45,22 @@ class MainActivity : AppCompatActivity() {
             (userChoice == optionsParam[2] && gameChoice == optionsParam[1])) {
             result = "You win!"
             imageEnemy.setImageResource(R.drawable.win)
+            countWins++
+            textWins.text = "Wins : $countWins"
         }
         else {
             result = "You lose!"
             imageEnemy.setImageResource(R.drawable.lose)
         }
-        textView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Coaster.otf"))
-        textView.text = result
+        textResult.text = result
+        countRound++
+        textRound.text = "Rounds : $countRound"
+
 
     }
 
     fun onClikPaper(view: View) {
+        //Thread.sleep(1000)
         val options = arrayOf("Rock", "Paper", "Scissors")
         val gameChoice = getGameChoice(options)
         val userChoice = "Paper"
