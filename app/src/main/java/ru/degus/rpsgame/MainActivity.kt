@@ -10,17 +10,18 @@ import kotlin.random.Random
 class MainActivity : AppCompatActivity() {
     private var countWins = 0
     private var countRound = 0
-
-
+    private var isReady = true
+    private val options = arrayOf("Rock", "Paper", "Scissors")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        imageEnemy.setImageResource(R.drawable.tie)
+        imageEnemy.setImageResource(R.drawable.again)
         imageEnemyChoice.setImageResource(R.drawable.question)
         textWins.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Coaster.otf"))
         textRound.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Coaster.otf"))
         textResult.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Coaster.otf"))
+        buttonAgain.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Coaster.otf"))
     }
 
     fun getGameChoice(optionsParam: Array<String>): String {
@@ -55,29 +56,37 @@ class MainActivity : AppCompatActivity() {
         textResult.text = result
         countRound++
         textRound.text = "Rounds : $countRound"
-
-
+        isReady = false
     }
 
     fun onClikPaper(view: View) {
-        //Thread.sleep(1000)
-        val options = arrayOf("Rock", "Paper", "Scissors")
-        val gameChoice = getGameChoice(options)
-        val userChoice = "Paper"
-        printResult(userChoice, gameChoice, options)
+        if (isReady) {
+            val gameChoice = getGameChoice(options)
+            val userChoice = "Paper"
+            printResult(userChoice, gameChoice, options)
+        }
     }
 
     fun onClickRock(view: View) {
-        val options = arrayOf("Rock", "Paper", "Scissors")
-        val gameChoice = getGameChoice(options)
-        val userChoice = "Rock"
-        printResult(userChoice, gameChoice, options)
+        if (isReady) {
+            val gameChoice = getGameChoice(options)
+            val userChoice = "Rock"
+            printResult(userChoice, gameChoice, options)
+        }
     }
 
     fun onClickScissors(view: View) {
-        val options = arrayOf("Rock", "Paper", "Scissors")
-        val gameChoice = getGameChoice(options)
-        val userChoice = "Scissors"
-        printResult(userChoice, gameChoice, options)
+        if (isReady) {
+            val gameChoice = getGameChoice(options)
+            val userChoice = "Scissors"
+            printResult(userChoice, gameChoice, options)
+        }
+    }
+
+    fun onClickAgain(view: View) {
+        isReady = true
+        imageEnemyChoice.setImageResource(R.drawable.question)
+        imageEnemy.setImageResource(R.drawable.again)
+        textResult.text = "Ready"
     }
 }
